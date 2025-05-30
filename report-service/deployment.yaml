@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: report-service
+  labels:
+    app: report-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: report-service
+  template:
+    metadata:
+      labels:
+        app: report-service
+    spec:
+      containers:
+      - name: report-service
+        image: microacrregistry.azurecr.io/report-service
+        ports:
+        - containerPort: 9003
+        env:
+        - name: CONFIG_SERVER_URL
+          valueFrom:
+            configMapKeyRef:
+              name: config-server-env
+              key: CONFIG_SERVER_URL
+        - name: EUREKA_SERVER_URL
+          valueFrom:
+            configMapKeyRef:
+              name: config-server-env
+              key: EUREKA_SERVER_URL
+        - name: KEYCLOAK_SERVER_URL
+          valueFrom:
+            configMapKeyRef:
+              name: config-server-env
+              key: KEYCLOAK_SERVER_URL
+        - name: MYSQL_DB_URL
+          valueFrom:
+            configMapKeyRef:
+              name: config-server-env
+              key: MYSQL_DB_URL
+        - name: MYSQL_DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: config-server-env
+              key: MYSQL_DB_USERNAME
+        - name: MYSQL_DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: config-server-env
+              key: MYSQL_DB_PASSWORD
+        - name: RABBITMQ_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: config-server-env
+              key: RABBITMQ_HOST
+        - name: RABBITMQ_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: config-server-env
+              key: RABBITMQ_USERNAME
+        - name: RABBITMQ_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: config-server-env
+              key: RABBITMQ_PASSWORD
